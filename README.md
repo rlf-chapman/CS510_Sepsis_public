@@ -64,7 +64,8 @@ If you're like me, youre gonna wanna use PySpark from a jupyter notebook on your
 2. Login with your passowrd from above
 3. launch jupyterlab by running `jupyter-lab --ip=<IP from above> --port=8888`
 4. From your host machine, open a web browser and navigate to `<IP from above>:8888`
-5. Use the token generated on the CLI to log in
+5. Use the token generated on the CLI to log in through the UI
+6. Happy hacking
 
 
 
