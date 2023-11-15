@@ -56,6 +56,17 @@
     - run `psql -U postgres -d <database_name> -f <inflated_db.sql>`
         - I still don't have data access, so this part is untested.
 
+##Jupyter Notebook Access from Host Machine
+
+If you're like me, youre gonna wanna use PySpark from a jupyter notebook on your host, instead of inside this GUI free VM. Here is how to get that working.
+
+1. Run `vagrant ssh` from the Vagrantfile location, or use `ssh vagrant@<your VM's IP address>`
+2. Login with your passowrd from above
+3. launch jupyterlab by running `jupyter-lab --ip=<IP from above> --port=8888`
+4. From your host machine, open a web browser and navigate to `<IP from above>:8888`
+5. Use the token generated on the CLI to log in
+
+
 
 
 
