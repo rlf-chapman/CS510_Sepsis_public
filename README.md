@@ -33,12 +33,29 @@
     - Should be on interface "enp0s8"
     - In the example below, the IP we care about is 192.168.1.35, but may be different for you
 ![alt text](network_interfaces.PNG)
-9. Reboot the VM
+8. Reboot the VM
     - run `sudo reboot`
-8. Check to see if Postgres is running
+9. Check to see if Postgres is running
     - Run `systemctl status postgresql`
     - Green text is good, red text is bad
     - If it isnt running, try `systemctl restart postgresql`
+10. Move the downloaded DB into the VM
+    - Navigate to the directory that has the downloaded DB
+    - use an scp command to move the file into the VM
+    - using the IP address from above, the command would look like this:
+        - `scp downloaded_db.zip vagrant@192.168.135:~/`
+    - You will be prompted for the password you entered earlier
+    - unzip or otherwise inflate the db 
+11. Import the DB data into Postgres
+    - must be done with a valid Postgres role, default is "postgres"
+    - change users to the appropriate one by running `sudo su - postgres`
+    - connect to db by running `psql -U postgres`
+    - create new db by running `CREATE DATABASE <database_name>;`
+    - check if db was created by running `\list`
+    - run `\q` to quit back to cli
+    - run `psql -U postgres -d <database_name> -f <inflated_db.sql>`
+        - I still don't have data access, so this part is untested.
+
 
 
 
