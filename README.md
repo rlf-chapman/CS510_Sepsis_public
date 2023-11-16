@@ -35,6 +35,8 @@
 ![alt text](network_interfaces.PNG)
 8. Reboot the VM
     - run `sudo reboot`
+    - wait for the VM to reboot (should be less than a minute)
+    - reconnect either with `vagrant ssh` or with `ssh vagrant@<your VM's IP address>` and your password from above
 9. Check to see if Postgres is running
     - Run `systemctl status postgresql`
     - Green text is good, red text is bad
@@ -45,16 +47,21 @@
     - using the IP address from above, the command would look like this:
         - `scp downloaded_db.zip vagrant@192.168.135:~/`
     - You will be prompted for the password you entered earlier
-    - unzip or otherwise inflate the db 
+    - unzip or otherwise inflate the db
+    - make note of the data location 
 11. Import the DB data into Postgres
     - must be done with a valid Postgres role, default is "postgres"
     - change users to the appropriate one by running `sudo su - postgres`
     - connect to db by running `psql -U postgres`
-    - create new db by running `CREATE DATABASE <database_name>;`
+    - create new db by running `CREATE DATABASE <database_name>;`. In our case, this is going to be `mimic`.
     - check if db was created by running `\list`
     - run `\q` to quit back to cli
-    - run `psql -U postgres -d <database_name> -f <inflated_db.sql>`
-        - I still don't have data access, so this part is untested.
+    - begin to run the MIT approved procedure for inflating the database and creating the necessary tables
+        - run `git clone https://github.com/MIT-LCP/mimic-code.git`
+        - run `cd mimic-iii/buildmimic/postgres/`
+        - run `make create-user mimic datadir="/path/to/data/"` where "/path/to/data/" is replaced with the directory of the data you loaded into the VM earlier
+        - watch for build errors and wait for the process to complete. It may take upwards of a couple hours. 
+    - You're all set. connect to the database using `psql -d mimic`, and be sure to set the schema to mimiciii by running `SET search_path TO mimiciii;` on the sql cli.
 
 ## Jupyter Notebook Access from Host Machine
 
@@ -65,7 +72,8 @@ If you're like me, youre gonna wanna use PySpark from a jupyter notebook on your
 3. launch jupyterlab by running `jupyter-lab --ip=<IP from above> --port=8888`
 4. From your host machine, open a web browser and navigate to `<IP from above>:8888`
 5. Use the token generated on the CLI to log in through the UI
-6. Happy hacking
+6. You'll need to configure the postgres server to accept connections from your host machine (or anywhere, if you don't care about inbound connections) if you havent already. 
+    - 
 
 
 

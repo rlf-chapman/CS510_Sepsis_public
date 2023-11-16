@@ -2,7 +2,7 @@ Vagrant.configure("2") do |config|
   # Set the Ubuntu box to use
   config.vm.define "box" do |b|
   config.vm.box = "boxen/ubuntu-22.04-x86_64"
-  config.vm.disk :disk, size: "100GB", primary: true
+  config.vm.disk :disk, size: "200GB", primary: true
 
   # Configure the virtual machine
   # config.vm.network "private_network", type: "dhcp" # You can also use a static IP address
@@ -30,11 +30,11 @@ Vagrant.configure("2") do |config|
     sudo apt -y install postgresql postgresql-contrib
 
     # Allow remote access to PostgreSQL (for development purposes only)
-    sudo sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" /etc/postgresql/10/main/postgresql.conf
-    echo "host    all             all             0.0.0.0/0               md5" | sudo tee -a /etc/postgresql/10/main/pg_hba.conf
+    sudo sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" /etc/postgresql/14/main/postgresql.conf
+    echo "host    all             all             0.0.0.0/0               md5" | sudo tee -a /etc/postgresql/14/main/pg_hba.conf
 
     # Restart PostgreSQL
-    sudo service postgresql restart
+    sudo systemctl restart postgresql
 	
 	  #Install jupyterlab
 	  sudo apt-get install -y python3-pip
