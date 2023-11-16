@@ -2,7 +2,7 @@ Vagrant.configure("2") do |config|
   # Set the Ubuntu box to use
   config.vm.define "box" do |b|
   config.vm.box = "boxen/ubuntu-22.04-x86_64"
-  #config.vm.disk :disk, size: "100GB", primary: true
+  config.vm.disk :disk, size: "100GB", primary: true
 
   # Configure the virtual machine
   # config.vm.network "private_network", type: "dhcp" # You can also use a static IP address
@@ -10,7 +10,6 @@ Vagrant.configure("2") do |config|
   config.vm.provider "virtualbox" do |vb|
     vb.memory = 4096 # Set the amount of RAM for the VM
     vb.cpus = 4 # Set the number of CPU cores for the VM
-    vb.customize ["modifyvm", :id, "--hddsize", "100000"]
   end
   
   config.ssh.username = 'vagrant'
@@ -37,9 +36,9 @@ Vagrant.configure("2") do |config|
     # Restart PostgreSQL
     sudo service postgresql restart
 	
-	#Install jupyterlab
-	sudo apt-get install -y python3-pip
+	  #Install jupyterlab
+	  sudo apt-get install -y python3-pip
     pip3 install jupyterlab
   SHELL
+  end
 end
-
