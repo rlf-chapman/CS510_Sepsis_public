@@ -72,7 +72,7 @@ If you're like me, youre gonna wanna use PySpark from a jupyter notebook on your
 3. launch jupyterlab by running `jupyter-lab --ip=<IP from above> --port=8888`
 4. From your host machine, open a web browser and navigate to `<IP from above>:8888`
 5. Use the token generated on the CLI to log in through the UI
-6. You'll need to configure the postgres server to accept connections from your host machine (or anywhere, if you don't care about inbound connections) if you havent already. 
+6. You'll need to configure the postgres server to accept connections from your host machine (or anywhere, if you don't care about inbound connections) if you havent already. Note: this connection method is not for production and is insecure. 
     - modify `/etc/postgresql/14/main/pg_hba.conf` to resemble the following:
 ![alt text](postgres_connections.PNG)
 
