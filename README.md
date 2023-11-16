@@ -31,7 +31,7 @@
 7. Make note of the IP address of the VM on the public interface
     - run `ifconfig` to get a report of all active network interfaces
     - Should be on interface "enp0s8"
-    - In the example below, the IP we care about is 192.168.1.35, but may be different for you
+    - In the example below, the IP we care about is 192.168.1.35, but will almost certainly be different for you
 ![alt text](network_interfaces.PNG)
 8. Reboot the VM
     - run `sudo reboot`
@@ -66,6 +66,8 @@ If you're like me, youre gonna wanna use PySpark from a jupyter notebook on your
 4. From your host machine, open a web browser and navigate to `<IP from above>:8888`
 5. Use the token generated on the CLI to log in through the UI
 6. Happy hacking
+
+
 
 
 
