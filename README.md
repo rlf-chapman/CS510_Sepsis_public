@@ -1,5 +1,5 @@
 # CS510 Sepsis Prediction Project
-
+ TODO: script more of this installation 
 ## Quickstart guide
 
 1. Download and install VirtualBox for your operating system
