@@ -1,7 +1,7 @@
 Vagrant.configure("2") do |config|
   # Set the Ubuntu box to use
   config.vm.box = "boxen/ubuntu-22.04-x86_64"
-  config.disksize.size = '100GB'
+  config.vm.disk :disk, size: "100GB", primary: true
 
   # Configure the virtual machine
   # config.vm.network "private_network", type: "dhcp" # You can also use a static IP address
