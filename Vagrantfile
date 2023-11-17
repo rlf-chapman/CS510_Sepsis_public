@@ -8,7 +8,7 @@ Vagrant.configure("2") do |config|
   # config.vm.network "private_network", type: "dhcp" # You can also use a static IP address
   config.vm.network "public_network", bridge: "Intel(R) 82579LM Gigabit Network Connection"
   config.vm.provider "virtualbox" do |vb|
-    vb.memory = 4096 # Set the amount of RAM for the VM
+    vb.memory = 8192 # Set the amount of RAM for the VM
     vb.cpus = 4 # Set the number of CPU cores for the VM
   end
   
