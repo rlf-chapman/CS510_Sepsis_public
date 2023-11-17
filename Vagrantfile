@@ -39,6 +39,12 @@ Vagrant.configure("2") do |config|
 	  #Install jupyterlab
 	  sudo apt-get install -y python3-pip
     pip3 install jupyterlab
+
+    #Expand filesystem
+    sudo growpart /dev/sda 3
+    sudo lvresize -r -l 100%VG /dev/ubuntu-vg/ubuntu-lv
+    lsblk
+    df -h
   SHELL
   end
 end
