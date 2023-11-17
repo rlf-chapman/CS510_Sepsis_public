@@ -13,7 +13,7 @@ else
     echo "Running as root."
 fi
 
-sudo apt -y install unrar
+
 mv /home/vagrant/MIMIC-III.rar /var/lib/postgres/
 unrar x MIMIC-III.rar
 cd MIMIC-III/
