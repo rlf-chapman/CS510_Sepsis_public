@@ -40,7 +40,7 @@
 9. Check to see if Postgres is running
     - Run `systemctl status postgresql`
     - Green text is good, red text is bad
-    - If it isnt running, try `systemctl restart postgresql`
+    - If it isnt running, try `systemctl enable postgresql`, then `systemctl restart postgresql`
 10. Move the downloaded DB into the VM
     - Navigate to the directory that has the downloaded DB
     - use an scp command to move the file into the VM

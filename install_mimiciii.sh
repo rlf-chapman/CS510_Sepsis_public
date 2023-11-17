@@ -14,7 +14,7 @@ else
 fi
 
 
-mv /home/vagrant/MIMIC-III.rar /var/lib/postgres/
+mv /home/vagrant/MIMIC-III.rar /var/lib/postgresql/
 unrar x MIMIC-III.rar
 cd MIMIC-III/
 gunzip *.gz
