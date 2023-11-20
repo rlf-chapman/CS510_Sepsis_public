@@ -15,10 +15,11 @@ fi
 
 
 mv /home/vagrant/MIMIC-III.rar /var/lib/postgresql/
+cd /var/lib/postgresql/
 unrar x MIMIC-III.rar
 cd MIMIC-III/
 gunzip *.gz
 cd ../
 git clone https://github.com/MIT-LCP/mimic-code.git
-cd buildmimic/postgres/
-make create-user mimic datadir="/var/lib/postgres/MIMIC-III/"
+cd /var/lib/postgresql/mimic-code/mimic-iii/buildmimic/postgres
+make create-user mimic datadir="/var/lib/postgresql/MIMIC-III/"

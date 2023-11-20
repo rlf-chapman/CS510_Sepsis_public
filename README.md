@@ -13,7 +13,8 @@
     - link: https://developer.hashicorp.com/vagrant/install?product_intent=vagrant
     - Download the version for your OS
         - You can choose between Mac, Windows, and Linux. I've only tested against windows and Ubuntu 22.04
-3. Open PowerShell or a terminal window and navigate to the directory you cloned this repo from
+3. Open PowerShell or a terminal window and navigate to the directory you cloned this repo from, and install a couple plug-ins
+    - `vagrant plugin install vagrant-reload`
 4. Run `vagrant up` in that directory
     - This requires an internet connection to work, as the disk image your VM will be based on will need to be downloaded the first time this script runs
     - This will take a few minutes. The script should spawn a minimal ubuntu 22.04 virtual machines on your computer. 

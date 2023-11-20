@@ -20,7 +20,6 @@ Vagrant.configure("2") do |config|
   
   config.vm.provision "file", source: "install_mimiciii.sh", destination: "$HOME/install_mimic.sh"
   config.vm.provision "file", source: "pg_hba.conf", destination: "$HOME/pg_hba.conf"
-
   # Shell provisioner to install PostgreSQL
   config.vm.provision "shell", inline: <<-SHELL
     # Update the package list
@@ -40,12 +39,9 @@ Vagrant.configure("2") do |config|
     sudo apt -y install postgresql postgresql-contrib
 
     # Allow remote access to PostgreSQL (for development purposes only)
-    #sudo sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" /etc/postgresql/14/main/postgresql.conf
-    #echo "host    all             all             0.0.0.0/0               md5" | sudo tee -a /etc/postgresql/14/main/pg_hba.conf
-    #echo "pg_hba.conf"
-    #cat /etc/postgresql/14/main/pg_hba.conf
-    # Restart PostgreSQL
-    #sudo systemctl restart postgresql
+    sudo cp /home/vagrant/pg_hba.conf /etc/postgresql/14/main/pg_hba.conf
+    sudo systemctl enable postgresql
+    sudo systemctl restart postgresql
 	
 	  #Install jupyterlab
 	  sudo apt-get install -y python3-pip
@@ -53,11 +49,13 @@ Vagrant.configure("2") do |config|
     sudo reboot
   SHELL
 
-  #config.vm.provision :reload
-  #config.vm.provision "shell", inline: <<-SHELL
-    #sudo cp pg_hba.conf /etc/postgresql/14/main/pg_hba.conf
-    #sudo chmod +x install_mimiciii.sh
-    #sudo ./install_mimiciii.sh
-  #SHELL
+  config.vm.provision :reload
+  config.vm.provision "file", source: "MIMIC-III.rar", destination: "$HOME/MIMIC-III.rar"
+  config.vm.provision "shell", inline: <<-SHELL
+    echo "==== Creating mimic databse ===="
+    sudo -i -u postgres psql -c "CREATE DATABASE mimic;"
+    sudo chmod +x /home/vagrant/install_mimiciii.sh
+    sudo ./home/vagrant/install_mimiciii.sh
+  SHELL
   end
 end
