@@ -54,8 +54,8 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", inline: <<-SHELL
     echo "==== Creating mimic databse ===="
     sudo -i -u postgres psql -c "CREATE DATABASE mimic;"
-    sudo chmod +x /home/vagrant/install_mimiciii.sh
-    sudo ./home/vagrant/install_mimiciii.sh
+    sudo chmod +x /home/vagrant/install_mimic.sh
+    sudo ./home/vagrant/install_mimic.sh
   SHELL
   end
 end
