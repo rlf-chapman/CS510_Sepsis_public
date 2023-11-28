@@ -18,8 +18,8 @@ Vagrant.configure("2") do |config|
   config.vm.synced_folder ".", "/vagrant", disabled: true
 
   
-  config.vm.provision "file", source: "install_mimiciii.sh", destination: "$HOME/install_mimic.sh"
-  config.vm.provision "file", source: "pg_hba.conf", destination: "$HOME/pg_hba.conf"
+  #config.vm.provision "file", source: "install_mimiciii.sh", destination: "$HOME/install_mimic.sh"
+  config.vm.provision "file", source: "pg_hba.conf", destination: "/tmp/pg_hba.conf"
   # Shell provisioner to install PostgreSQL
   config.vm.provision "shell", inline: <<-SHELL
     # Update the package list
@@ -39,7 +39,7 @@ Vagrant.configure("2") do |config|
     sudo apt -y install postgresql postgresql-contrib
 
     # Allow remote access to PostgreSQL (for development purposes only)
-    sudo cp /home/vagrant/pg_hba.conf /etc/postgresql/14/main/pg_hba.conf
+    sudo cp /tmp/pg_hba.conf /etc/postgresql/14/main/pg_hba.conf
     sudo systemctl enable postgresql
     sudo systemctl restart postgresql
 	
@@ -50,12 +50,23 @@ Vagrant.configure("2") do |config|
   SHELL
 
   config.vm.provision :reload
-  config.vm.provision "file", source: "MIMIC-III.rar", destination: "$HOME/MIMIC-III.rar"
+  config.vm.provision "file", source: "MIMIC-III.rar", destination: "/tmp/MIMIC-III.rar"
   config.vm.provision "shell", inline: <<-SHELL
     echo "==== Creating mimic databse ===="
     sudo -i -u postgres psql -c "CREATE DATABASE mimic;"
-    sudo chmod +x /home/vagrant/install_mimic.sh
-    sudo ./home/vagrant/install_mimic.sh
+    mv /tmp/MIMIC-III.rar /var/lib/postgresql/
+    cd /var/lib/postgresql/
+    echo "====================Unrar-ing Database===================="
+    unrar x MIMIC-III.rar
+    echo "====================Inflating Database===================="
+    cd MIMIC-III/
+    gunzip *.gz
+    echo "==========Creating Tables and Loading Data into Postgresql=========="
+    cd ../
+    git clone https://github.com/MIT-LCP/mimic-code.git
+    cd /var/lib/postgresql/mimic-code/mimic-iii/buildmimic/postgres
+    make create-user mimic datadir="/var/lib/postgresql/MIMIC-III/"
+    echo "====================Script Complete===================="
   SHELL
   end
 end

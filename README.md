@@ -15,7 +15,9 @@
         - You can choose between Mac, Windows, and Linux. I've only tested against windows and Ubuntu 22.04
 3. Open PowerShell or a terminal window and navigate to the directory you cloned this repo from, and install a couple plug-ins
     - `vagrant plugin install vagrant-reload`
-4. Run `vagrant up` in that directory
+4. Move your MIMIC-III data into this directory
+    - My script assumes this is a .rar archive named "MIMIC-III.rar". If it isn't exactly that, make changes to the VagrantFile on line 53 referencing the archive and add the necessary compression tools to the installation script on line 36 in the Vagrantfile.
+5. Run `vagrant up` in that directory
     - This requires an internet connection to work, as the disk image your VM will be based on will need to be downloaded the first time this script runs
     - This will take a few minutes. The script should spawn a minimal ubuntu 22.04 virtual machines on your computer. 
     - It should be configured to get an IP address on the same network as your computer with a "bridged" interface
@@ -23,50 +25,27 @@
     - It should install some useful tools
     - It should install Postgres, and configure it to accept connections from anywhere
     - It should install jupyterlab
-5. Connect to the spawned VM
-    - run `vagrant ssh` from the terminal or PowerShell session you have open to connect to the VM
-    - this command needs to be run from the same location as the Vagrantfile, otherwise vagrant will get confused and fail to connect
-6. Change your password 
+    - It should copy in your MIMIC-III data
+    - It should create the appropriate database within Postgres
+    - It should inflate the data
+    - It should build all the necessary tables needed within the databse, and verify database integrity with a few tests
+6. You're all done with setup!
+
+## Connecting to the spawned VM
+1. Use vagrant
+    - run `vagrant ssh` from the terminal or PowerShell session in the directory you clones this repo to.
+2. Change your password 
     - Run `passwd` 
     - Follow on-screen prompts
-7. Make note of the IP address of the VM on the public interface
+3. Make note of the IP address of the VM on the public interface
     - run `ifconfig` to get a report of all active network interfaces
     - Should be on interface "enp0s8"
     - In the example below, the IP we care about is 192.168.1.35, but will almost certainly be different for you
 ![alt text](network_interfaces.PNG)
-8. Reboot the VM
-    - run `sudo reboot`
-    - wait for the VM to reboot (should be less than a minute)
-    - reconnect either with `vagrant ssh` or with `ssh vagrant@<your VM's IP address>` and your password from above
-9. Check to see if Postgres is running
-    - Run `systemctl status postgresql`
-    - Green text is good, red text is bad
-    - If it isnt running, try `systemctl enable postgresql`, then `systemctl restart postgresql`
-10. Move the downloaded DB into the VM
-    - Navigate to the directory that has the downloaded DB
-    - use an scp command to move the file into the VM
-    - using the IP address from above, the command would look like this:
-        - `scp downloaded_db.zip vagrant@192.168.135:~/`
-    - You will be prompted for the password you entered earlier
-    - unzip or otherwise inflate the db
-    - make note of the data location 
-11. Import the DB data into Postgres
-    - must be done with a valid Postgres role, default is "postgres"
-    - change users to the appropriate one by running `sudo su - postgres`
-    - connect to db by running `psql -U postgres`
-    - create new db by running `CREATE DATABASE <database_name>;`. In our case, this is going to be `mimic`.
-    - check if db was created by running `\list`
-    - run `\q` to quit back to cli
-    - begin to run the MIT approved procedure for inflating the database and creating the necessary tables
-        - run `git clone https://github.com/MIT-LCP/mimic-code.git`
-        - run `cd mimic-iii/buildmimic/postgres/`
-        - run `make create-user mimic datadir="/path/to/data/"` where "/path/to/data/" is replaced with the directory of the data you loaded into the VM earlier
-        - watch for build errors and wait for the process to complete. It may take upwards of a couple hours. 
-    - You're all set. connect to the database using `psql -d mimic`, and be sure to set the schema to mimiciii by running `SET search_path TO mimiciii;` on the sql cli.
 
 ## Jupyter Notebook Access from Host Machine
 
-If you're like me, youre gonna wanna use PySpark from a jupyter notebook on your host, instead of inside this GUI free VM. Here is how to get that working.
+If you're like me, youre gonna wanna use PySpark from a jupyter notebook on your host, instead of inside this GUI free VM. Here is how to get that working:
 
 1. Run `vagrant ssh` from the Vagrantfile location, or use `ssh vagrant@<your VM's IP address>`
 2. Login with your passowrd from above
