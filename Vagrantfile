@@ -45,7 +45,6 @@ Vagrant.configure("2") do |config|
 	
 	  #Install jupyterlab
 	  sudo apt-get install -y python3-pip
-    pip3 install jupyterlab
     sudo reboot
   SHELL
 
