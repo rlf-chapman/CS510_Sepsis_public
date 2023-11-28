@@ -16,10 +16,14 @@ fi
 
 mv /home/vagrant/MIMIC-III.rar /var/lib/postgresql/
 cd /var/lib/postgresql/
+echo "====================Unrar-ing Database===================="
 unrar x MIMIC-III.rar
+echo "====================Inflating Database===================="
 cd MIMIC-III/
 gunzip *.gz
+echo "==========Creating Tables and Loading Data into Postgresql=========="
 cd ../
 git clone https://github.com/MIT-LCP/mimic-code.git
 cd /var/lib/postgresql/mimic-code/mimic-iii/buildmimic/postgres
 make create-user mimic datadir="/var/lib/postgresql/MIMIC-III/"
+echo "====================Script Complete===================="
