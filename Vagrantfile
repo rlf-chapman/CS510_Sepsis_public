@@ -33,7 +33,7 @@ Vagrant.configure("2") do |config|
     df -h
 	
     #Install useful utilities
-    sudo apt -y install vim tcpdump tmux net-tools g++ gcc unrar make cmake 
+    sudo apt -y install vim tcpdump tmux net-tools g++ gcc unrar make cmake wget ifupdown
 
     # Install PostgreSQL and configure it
     sudo apt -y install postgresql postgresql-contrib
@@ -43,7 +43,6 @@ Vagrant.configure("2") do |config|
     sudo systemctl enable postgresql
     sudo systemctl restart postgresql
 	
-	  #Install jupyterlab
 	  sudo apt-get install -y python3-pip
     sudo reboot
   SHELL
@@ -65,6 +64,14 @@ Vagrant.configure("2") do |config|
     git clone https://github.com/MIT-LCP/mimic-code.git
     cd /var/lib/postgresql/mimic-code/mimic-iii/buildmimic/postgres
     make create-user mimic datadir="/var/lib/postgresql/MIMIC-III/"
+
+    echo "====================Prepare Jupyterhub===================="
+    sudo apt -y install default-jre
+    wget https://jdbc.postgresql.org/download/postgresql-42.6.0.jar -P /tmp/
+    sudo cp /tmp/postgresql-42.6.0.jar /var/lib/postgresql/
+    sudo chown postgres:postgres /var/lib/postgresql/postgresql-42.6.0.jar
+    sudo pip install jupyterhub
+    sudo pip install pyspark
     echo "====================Script Complete===================="
   SHELL
   end
