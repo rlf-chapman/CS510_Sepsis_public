@@ -50,15 +50,19 @@ Vagrant.configure("2") do |config|
   config.vm.provision :reload
   config.vm.provision "file", source: "MIMIC-III.rar", destination: "/tmp/MIMIC-III.rar"
   config.vm.provision "shell", inline: <<-SHELL
-    echo "==== Creating mimic databse ===="
+    echo "====================Creating mimic databse===================="
     sudo -i -u postgres psql -c "CREATE DATABASE mimic;"
+    sudo -i -u postgres psql -c "ALTER USER postgres WITH PASSWORD 'newpassphrase123!';"
     mv /tmp/MIMIC-III.rar /var/lib/postgresql/
     cd /var/lib/postgresql/
+    
     echo "====================Unrar-ing Database===================="
     unrar x MIMIC-III.rar
+
     echo "====================Inflating Database===================="
     cd MIMIC-III/
     gunzip *.gz
+
     echo "==========Creating Tables and Loading Data into Postgresql=========="
     cd ../
     git clone https://github.com/MIT-LCP/mimic-code.git
@@ -70,8 +74,9 @@ Vagrant.configure("2") do |config|
     wget https://jdbc.postgresql.org/download/postgresql-42.6.0.jar -P /tmp/
     sudo cp /tmp/postgresql-42.6.0.jar /var/lib/postgresql/
     sudo chown postgres:postgres /var/lib/postgresql/postgresql-42.6.0.jar
-    sudo pip install jupyterhub
+    sudo pip install jupyterlab
     sudo pip install pyspark
+
     echo "====================Script Complete===================="
   SHELL
   end
