@@ -42,7 +42,7 @@ If you're like me, youre gonna wanna use PySpark from a jupyter notebook on your
 6. I've already included a pg_hba.conf file to allow you to connect from your host machine to the postgres instance
 
 ## Troubleshooting
-1. Use vagrant to connect and invesitgate
+1. Use vagrant to connect and investigate
     - run `vagrant ssh` from the terminal or PowerShell session in the directory you clones this repo to.
 2. Change your password (if you havent already)
     - Run `passwd` 
