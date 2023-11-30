@@ -44,6 +44,7 @@ Vagrant.configure("2") do |config|
     sudo systemctl restart postgresql
 	
 	  sudo apt-get install -y python3-pip
+    sudo sync
     sudo reboot
   SHELL
 
@@ -74,10 +75,15 @@ Vagrant.configure("2") do |config|
     wget https://jdbc.postgresql.org/download/postgresql-42.6.0.jar -P /tmp/
     sudo cp /tmp/postgresql-42.6.0.jar /var/lib/postgresql/
     sudo chown postgres:postgres /var/lib/postgresql/postgresql-42.6.0.jar
+
     sudo pip install jupyterlab
     sudo pip install pyspark
-
-    echo "====================Script Complete===================="
+    
+    echo "======================================================================="
+    echo "======================================================================="
+    echo "====================Installation and Setup Complete===================="
+    echo "======================================================================="
+    echo "======================================================================="
   SHELL
   end
 end
